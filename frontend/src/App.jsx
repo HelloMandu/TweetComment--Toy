@@ -23,8 +23,7 @@ function App({ tweetService }) {
     }
   };
 
-  return (
-    <div className='app'>
+  return (<div className="app">
       <Header
         username={user.username}
         onLogout={onLogout}
@@ -34,10 +33,10 @@ function App({ tweetService }) {
       <Switch>
         (
         <>
-          <Route exact path='/'>
+          <Route exact path="/">
             <AllTweets tweetService={tweetService} />
           </Route>
-          <Route exact path='/:username'>
+          <Route exact path="/:username">
             <MyTweets tweetService={tweetService} />
           </Route>
         </>
