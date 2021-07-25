@@ -1,0 +1,24 @@
+import { Tweet } from '../model/tweet';
+
+export const tweets: Tweet[] = [
+  {
+    id: 1,
+    text: 'first tweet',
+    createdAt: new Date(),
+    user: {
+      name: 'sungmin',
+      username: 'sungmin',
+      url: 'https://cdn.expcloud.co/life/uploads/2020/04/27135731/Fee-gentry-hed-shot-1.jpg',
+    },
+  },
+  {
+    id: 2,
+    text: 'second tweet',
+    createdAt: new Date(),
+    user: {
+      name: 'sungmin2',
+      username: 'sungmin2',
+      url: 'https://cdn.expcloud.co/life/uploads/2020/04/27135731/Fee-gentry-hed-shot-1.jpg',
+    },
+  },
+];

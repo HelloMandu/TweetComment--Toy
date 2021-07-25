@@ -1,21 +1,23 @@
 {
   "name": "real-time-tweet-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.ts",
   "license": "MIT",
-  "type": "module",
   "scripts": {
-    "start": "concurrently \"tsc -w\" && \"nodemon dist/app\""
+    "start": "concurrently \"tsc -w\" \"nodemon dist/app\""
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/helmet": "^4.0.0",
     "@types/morgan": "^1.9.3",
+    "@types/node": "^16.4.2",
     "concurrently": "^6.2.0",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "helmet": "^4.6.0",
