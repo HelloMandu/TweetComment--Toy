@@ -12,7 +12,8 @@
     "@types/helmet": "^4.0.0",
     "@types/morgan": "^1.9.3",
     "concurrently": "^6.2.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2"
   },
   "dependencies": {
     "express": "^4.17.1",
