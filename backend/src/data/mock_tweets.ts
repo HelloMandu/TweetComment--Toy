@@ -1,6 +1,6 @@
-import { Tweet } from '../model/tweet';
+import { TweetModel } from '../model/tweet.model';
 
-export let tweets: Tweet[] = [
+export const tweets: TweetModel[] = [
   {
     id: 1,
     text: 'first tweet',

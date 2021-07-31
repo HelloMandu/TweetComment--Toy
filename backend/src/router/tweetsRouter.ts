@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { tweets } from '../data/mock_tweets';
-import { Tweet } from '../model/tweet';
+import { TweetModel } from '../model/tweet.model';
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.get('/:id', (req: Request, res: Response) => {
 
 router.post('/', (req: Request, res: Response) => {
   const { text, name, username } = req.body;
-  const tweet: Tweet = {
+  const tweet: TweetModel = {
     id: tweets.length + 1,
     text,
     createdAt: new Date(),

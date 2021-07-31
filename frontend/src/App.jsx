@@ -23,7 +23,8 @@ function App({ tweetService }) {
     }
   };
 
-  return (<div className="app">
+  return (
+    <div className="app">
       <Header
         username={user.username}
         onLogout={onLogout}
