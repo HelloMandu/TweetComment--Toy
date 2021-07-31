@@ -4,9 +4,13 @@ import AllTweets from './pages/AllTweets';
 import MyTweets from './pages/MyTweets';
 import { useAuth } from './context/AuthContext';
 
-function App({ tweetService }) {
+interface AppProps {
+  tweetService: any;
+}
+
+function App({ tweetService }: AppProps) {
   const history = useHistory();
-  const { user, logout } = useAuth();
+  const { user, logout }: any = useAuth();
 
   const onAllTweets = () => {
     history.push('/');
@@ -32,7 +36,6 @@ function App({ tweetService }) {
         onMyTweets={onMyTweets}
       />
       <Switch>
-        (
         <>
           <Route exact path="/">
             <AllTweets tweetService={tweetService} />
@@ -41,7 +44,6 @@ function App({ tweetService }) {
             <MyTweets tweetService={tweetService} />
           </Route>
         </>
-        )
       </Switch>
     </div>
   );
