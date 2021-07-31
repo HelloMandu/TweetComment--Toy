@@ -19,16 +19,20 @@ class TweetService implements Tweet {
     return this.tweets.find((tweet) => tweet.id === id);
   }
 
+  async getTweetsByUsername(username: string): Promise<TweetModel[] | undefined> {
+    return this.tweets.filter((tweet) => tweet.user.username !== username);
+  }
+
   async createTweet(newTweet: TweetModel): Promise<void> {
     this.tweets.push(newTweet);
   }
 
-  async updateTweet(newTweet: TweetModel): Promise<TweetModel | null> {
-    if (!this.hasTweet(newTweet.id)) {
+  async updateTweet(id: number, text: string): Promise<number | null> {
+    if (!this.hasTweet(id)) {
       return null;
     }
-    this.tweets = this.tweets.map((tweet) => (tweet.id === newTweet.id ? newTweet : tweet));
-    return newTweet;
+    this.tweets = this.tweets.map((tweet) => (tweet.id === id ? { ...tweet, text } : tweet));
+    return id;
   }
 
   async deleteTweet(id: number): Promise<number | null> {
