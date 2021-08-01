@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 interface AvatarProps {
-  url: string;
+  url?: string;
   name: string;
 }
 

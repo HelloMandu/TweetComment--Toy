@@ -43,11 +43,8 @@ const Tweets = memo(({ tweetService, username, addable }: TweetsProps) => {
   const onUpdate = (tweetId: number, text: string) =>
     tweetService
       .updateTweet(tweetId, text)
-      .then(
-        (updated: Pick<TweetModel, 'id'>) => {
-          console.log(updated);
-        }
-        // setTweets((tweets) => tweets.map((item) => (item.id === updated ? updated : item)))
+      .then((updated: TweetModel) =>
+        setTweets((tweets) => tweets.map((item) => (item.id === updated.id ? updated : item)))
       )
       .catch((error: Error) => error.toString());
 
@@ -67,18 +64,19 @@ const Tweets = memo(({ tweetService, username, addable }: TweetsProps) => {
       )}
       {/*{error && <Banner text={error} isAlert={true} transient={true} />}*/}
       {tweets.length === 0 && <p className="tweets-empty">No Tweets Yet</p>}
-      {/*<ul className="tweets">*/}
-      {/*  {tweets.map((tweet) => (*/}
-      {/*    <TweetCard*/}
-      {/*      key={tweet.id}*/}
-      {/*      tweet={tweet}*/}
-      {/*      owner={tweet.user.username === user.username}*/}
-      {/*      onDelete={onDelete}*/}
-      {/*      onUpdate={onUpdate}*/}
-      {/*      onUsernameClick={onUsernameClick}*/}
-      {/*    />*/}
-      {/*  ))}*/}
-      {/*</ul>*/}
+      <ul className="tweets">
+        {tweets.map((tweet) => (
+          <TweetCard
+            key={tweet.id}
+            tweet={tweet}
+            // owner={tweet.user.username === user.user.username}
+            owner={true}
+            onDelete={onDelete}
+            onUpdate={onUpdate}
+            onUsernameClick={onUsernameClick}
+          />
+        ))}
+      </ul>
     </>
   );
 });
