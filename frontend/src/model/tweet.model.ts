@@ -1,6 +1,6 @@
 import { UserModel } from './user.model';
 
-export type TweetType = {
+export type TweetModel = {
   id: number;
   text: string;
   createdAt: Date;
@@ -8,8 +8,9 @@ export type TweetType = {
 };
 
 export interface TweetInterface {
-  getTweets(username?: string): Promise<TweetType | TweetType[]>;
-  postTweet(text: string): Promise<TweetType>;
-  updateTweet(tweetId: number, text: string): Promise<TweetType>;
-  deleteTweet(tweetId: number): Promise<TweetType>;
+  getTweets(username?: string): Promise<TweetModel | TweetModel[]>;
+  getTweetsById(id: number): Promise<TweetModel>;
+  postTweet(text: string, username: string, user: string): Promise<Pick<TweetModel, 'id'>>;
+  updateTweet(tweetId: number, text: string): Promise<Pick<TweetModel, 'id'>>;
+  deleteTweet(tweetId: number): Promise<Pick<TweetModel, 'id'>>;
 }

@@ -1,22 +1,12 @@
-import { HttpClientInterface, TweetInterface, TweetType } from '../model';
+import { HttpClientInterface, TweetInterface, TweetModel } from '../model';
 
 export default class TweetService implements TweetInterface {
   httpClient: HttpClientInterface;
-  tweets: TweetType[] = [
-    {
-      id: 1,
-      text: '실시간 tweet을 구현해보자. 바닥부터',
-      createdAt: new Date('2021-05-09T04:20:57.000Z'),
-      user: {
-        name: 'Bob',
-        username: 'bob',
-        url: 'https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-1.png',
-      },
-    },
-  ];
+  tweets: TweetModel[];
 
   constructor(httpClient: HttpClientInterface) {
     this.httpClient = httpClient;
+    this.tweets = [];
   }
 
   async getTweets(username?: string) {
@@ -25,39 +15,27 @@ export default class TweetService implements TweetInterface {
     return username ? this.tweets.filter((tweet) => tweet.user.username === username) : this.tweets;
   }
 
-  async postTweet(text: string) {
-    const tweet: TweetType = {
-      id: Date.now(),
-      createdAt: new Date(),
-      text,
-      user: {
-        name: 'Ellie',
-        username: 'ellie',
-      },
-    };
-    this.tweets.push(tweet);
-    return tweet;
+  async getTweetsById(id: number) {
+    return this.httpClient.get<TweetModel>(`/tweets/${id}`);
+  }
+
+  async postTweet(text: string, username: string, user: string) {
+    return this.httpClient.post<Pick<TweetModel, 'id'>>(`/tweets`, {
+      body: JSON.stringify({
+        text,
+        username,
+        user,
+      }),
+    });
   }
 
   async updateTweet(tweetId: number, text: string) {
-    const tweet = this.tweets.find((tweet) => tweet.id === tweetId);
-    if (!tweet) {
-      throw new Error('tweet not found!');
-    }
-    tweet.text = text;
-    return tweet;
+    return this.httpClient.put<Pick<TweetModel, 'id'>>(`/tweets/${tweetId}`, {
+      body: JSON.stringify({ text }),
+    });
   }
 
   async deleteTweet(tweetId: number) {
-    this.tweets = this.tweets.filter((tweet) => tweet.id !== tweetId);
-    return {
-      id: Date.now(),
-      createdAt: new Date(),
-      text: 'test',
-      user: {
-        name: 'Ellie',
-        username: 'ellie',
-      },
-    };
+    return this.httpClient.delete<Pick<TweetModel, 'id'>>(`/tweets/${tweetId}`);
   }
 }
