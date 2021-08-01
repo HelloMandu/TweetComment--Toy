@@ -4,41 +4,56 @@ import Banner from './Banner';
 import NewTweetForm from './NewTweetForm';
 import TweetCard from './TweetCard';
 import { useAuth } from '../context/AuthContext';
+import { TweetModel } from '../model';
+import TweetService from '../service/tweet.service';
+import { log } from 'util';
 
-const Tweets = memo(({ tweetService, username, addable }) => {
-  const [tweets, setTweets] = useState([]);
-  const [error, setError] = useState('');
+interface TweetsProps {
+  tweetService: TweetService;
+  username?: string;
+  addable: boolean;
+}
+
+const Tweets = memo(({ tweetService, username, addable }: TweetsProps) => {
+  const [tweets, setTweets] = useState<TweetModel[]>([]);
+  const [error, setError] = useState<string>('');
   const history = useHistory();
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   useEffect(() => {
     tweetService
       .getTweets(username)
-      .then((tweets) => setTweets([...tweets]))
+      .then((tweets: TweetModel[]) => {
+        console.log(tweets);
+        setTweets([...tweets]);
+      })
       .catch(onError);
-  }, [tweetService, username, user]);
+  }, [tweetService, username]); // user dependency exists
 
-  const onCreated = (tweet) => {
+  const onCreated = (tweet: TweetModel) => {
     setTweets((tweets) => [tweet, ...tweets]);
   };
 
-  const onDelete = (tweetId) =>
+  const onDelete = (tweetId: number) =>
     tweetService
       .deleteTweet(tweetId)
       .then(() => setTweets((tweets) => tweets.filter((tweet) => tweet.id !== tweetId)))
       .catch((error) => setError(error.toString()));
 
-  const onUpdate = (tweetId, text) =>
+  const onUpdate = (tweetId: number, text: string) =>
     tweetService
       .updateTweet(tweetId, text)
-      .then((updated) =>
-        setTweets((tweets) => tweets.map((item) => (item.id === updated.id ? updated : item)))
+      .then(
+        (updated: Pick<TweetModel, 'id'>) => {
+          console.log(updated);
+        }
+        // setTweets((tweets) => tweets.map((item) => (item.id === updated ? updated : item)))
       )
-      .catch((error) => error.toString());
+      .catch((error: Error) => error.toString());
 
-  const onUsernameClick = (tweet) => history.push(`/${tweet.username}`);
+  const onUsernameClick = (tweet: TweetModel) => history.push(`/${tweet.user.username}`);
 
-  const onError = (error) => {
+  const onError = (error: Error) => {
     setError(error.toString());
     setTimeout(() => {
       setError('');
@@ -50,7 +65,7 @@ const Tweets = memo(({ tweetService, username, addable }) => {
       {addable && (
         <NewTweetForm tweetService={tweetService} onError={onError} onCreated={onCreated} />
       )}
-      {error && <Banner text={error} isAlert={true} transient={true} />}
+      {/*{error && <Banner text={error} isAlert={true} transient={true} />}*/}
       {tweets.length === 0 && <p className="tweets-empty">No Tweets Yet</p>}
       {/*<ul className="tweets">*/}
       {/*  {tweets.map((tweet) => (*/}
