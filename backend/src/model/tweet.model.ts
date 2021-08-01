@@ -11,7 +11,7 @@ export interface Tweet {
   tweets: TweetModel[];
   getTweets(): Promise<TweetModel[]>;
   getTweetById(id: number): Promise<TweetModel | undefined>;
-  getTweetsByUsername(username: string): Promise<TweetModel[] | undefined>;
+  getTweetsByUsername(username: string): Promise<TweetModel[]>;
   createTweet(newTweet: TweetModel): Promise<void>;
   updateTweet(id: number, text: string): Promise<number | null>;
   deleteTweet(id: number): Promise<number | null>;

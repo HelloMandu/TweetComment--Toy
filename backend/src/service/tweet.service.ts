@@ -19,8 +19,8 @@ class TweetService implements Tweet {
     return this.tweets.find((tweet) => tweet.id === id);
   }
 
-  async getTweetsByUsername(username: string): Promise<TweetModel[] | undefined> {
-    return this.tweets.filter((tweet) => tweet.user.username !== username);
+  async getTweetsByUsername(username: string): Promise<TweetModel[]> {
+    return this.tweets.filter((tweet) => tweet.user.username === username) ?? [];
   }
 
   async createTweet(newTweet: TweetModel): Promise<void> {

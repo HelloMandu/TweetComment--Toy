@@ -8,5 +8,5 @@ export interface JsonResponse<T> extends Response {
 export interface HttpClientInterface {
   baseUrl: string;
   requestInit?: RequestInit;
-  fetch<T>(url: string, options?: RequestInit): Promise<JsonResponse<T> | void>;
+  fetch<T>(url: string, options?: RequestInit): Promise<T>;
 }

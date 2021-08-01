@@ -7,23 +7,21 @@ const tweetService = new TweetService(tweets);
 
 const getTweets = async (req: Request, res: Response) => {
   const username = req.query.username;
-  if (typeof username !== 'string') {
-    return res.status(403);
+  if (username && typeof username !== 'string') {
+    return res.status(403).json({ message: 'username is invalid' });
   }
-  const result = await (username
+  const tweets = await (username
     ? tweetService.getTweetsByUsername(username)
     : tweetService.getTweets());
-  res.status(200).json(result);
+  res.status(200).json(tweets ?? []);
 };
 
 const getTweetById = async (req: Request, res: Response) => {
   const id = req.params.id;
   const tweet = await tweetService.getTweetById(parseInt(id));
-  console.log(tweet);
   if (!tweet) {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });
   }
-  console.log(tweet);
   res.status(200).json(tweet);
 };
 

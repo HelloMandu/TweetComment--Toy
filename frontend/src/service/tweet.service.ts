@@ -1,6 +1,7 @@
-import { TweetInterface, TweetType } from '../model';
+import { HttpClientInterface, TweetInterface, TweetType } from '../model';
 
 export default class TweetService implements TweetInterface {
+  httpClient: HttpClientInterface;
   tweets: TweetType[] = [
     {
       id: 1,
@@ -12,8 +13,17 @@ export default class TweetService implements TweetInterface {
     },
   ];
 
+  constructor(httpClient: HttpClientInterface) {
+    this.httpClient = httpClient;
+  }
+
   async getTweets(username?: string) {
-    // const test = fetch('qwe');
+    const usernameUrl = username ? `/username=${username}` : '';
+    const newTweets: TweetType[] = await this.httpClient.fetch<TweetType[]>(
+      `/tweets${usernameUrl}`,
+      { method: 'GET' }
+    );
+    console.log(newTweets);
     return username ? this.tweets.filter((tweet) => tweet.username === username) : this.tweets;
   }
 
