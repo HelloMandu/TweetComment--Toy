@@ -27,4 +27,52 @@ export class HttpClientService implements HttpClientInterface {
       console.error(error);
     }
   }
+
+  async get<T>(url: string, options?: RequestInit) {
+    try {
+      return await this.fetch(url, {
+        method: 'GET',
+        ...options,
+        ...this.requestInit,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async post<T>(url: string, options?: RequestInit) {
+    try {
+      return await this.fetch(url, {
+        method: 'POST',
+        ...options,
+        ...this.requestInit,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async put<T>(url: string, options?: RequestInit) {
+    try {
+      return await this.fetch(url, {
+        method: 'PUT',
+        ...options,
+        ...this.requestInit,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async delete<T>(url: string, options?: RequestInit) {
+    try {
+      return await this.fetch(url, {
+        method: 'DELETE',
+        ...options,
+        ...this.requestInit,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }

@@ -7,9 +7,11 @@ export default class TweetService implements TweetInterface {
       id: 1,
       text: '실시간 tweet을 구현해보자. 바닥부터',
       createdAt: new Date('2021-05-09T04:20:57.000Z'),
-      name: 'Bob',
-      username: 'bob',
-      url: 'https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-1.png',
+      user: {
+        name: 'Bob',
+        username: 'bob',
+        url: 'https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-1.png',
+      },
     },
   ];
 
@@ -19,21 +21,19 @@ export default class TweetService implements TweetInterface {
 
   async getTweets(username?: string) {
     const usernameUrl = username ? `/username=${username}` : '';
-    const newTweets: TweetType[] = await this.httpClient.fetch<TweetType[]>(
-      `/tweets${usernameUrl}`,
-      { method: 'GET' }
-    );
-    console.log(newTweets);
-    return username ? this.tweets.filter((tweet) => tweet.username === username) : this.tweets;
+    this.tweets = await this.httpClient.get(`/tweets${usernameUrl}`);
+    return username ? this.tweets.filter((tweet) => tweet.user.username === username) : this.tweets;
   }
 
   async postTweet(text: string) {
     const tweet: TweetType = {
       id: Date.now(),
       createdAt: new Date(),
-      name: 'Ellie',
-      username: 'ellie',
       text,
+      user: {
+        name: 'Ellie',
+        username: 'ellie',
+      },
     };
     this.tweets.push(tweet);
     return tweet;
@@ -53,9 +53,11 @@ export default class TweetService implements TweetInterface {
     return {
       id: Date.now(),
       createdAt: new Date(),
-      name: 'Ellie',
-      username: 'ellie',
       text: 'test',
+      user: {
+        name: 'Ellie',
+        username: 'ellie',
+      },
     };
   }
 }

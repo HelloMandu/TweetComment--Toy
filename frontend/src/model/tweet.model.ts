@@ -1,10 +1,10 @@
+import { UserModel } from './user.model';
+
 export type TweetType = {
   id: number;
   text: string;
   createdAt: Date;
-  name: string;
-  username: string;
-  url?: string;
+  user: UserModel;
 };
 
 export interface TweetInterface {
