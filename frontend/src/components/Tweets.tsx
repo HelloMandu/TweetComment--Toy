@@ -4,12 +4,11 @@ import Banner from './Banner';
 import NewTweetForm from './NewTweetForm';
 import TweetCard from './TweetCard';
 import { useAuth } from '../context/AuthContext';
-import { TweetModel } from '../model';
-import TweetService from '../service/tweet.service';
+import { TweetInterface, TweetModel } from '../model';
 import { log } from 'util';
 
 interface TweetsProps {
-  tweetService: TweetService;
+  tweetService: TweetInterface;
   username?: string;
   addable: boolean;
 }
@@ -24,7 +23,6 @@ const Tweets = memo(({ tweetService, username, addable }: TweetsProps) => {
     tweetService
       .getTweets(username)
       .then((tweets: TweetModel[]) => {
-        console.log(tweets);
         setTweets([...tweets]);
       })
       .catch(onError);

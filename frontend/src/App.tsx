@@ -3,9 +3,10 @@ import Header from './components/Header';
 import AllTweets from './pages/AllTweets';
 import MyTweets from './pages/MyTweets';
 import { useAuth } from './context/AuthContext';
+import { TweetInterface } from './model';
 
 interface AppProps {
-  tweetService: any;
+  tweetService: TweetInterface;
 }
 
 function App({ tweetService }: AppProps) {

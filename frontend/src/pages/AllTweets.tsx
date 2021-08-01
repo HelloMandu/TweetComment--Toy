@@ -1,9 +1,9 @@
 import React from 'react';
 import Tweets from '../components/Tweets';
-import TweetService from '../service/tweet.service';
+import { TweetInterface } from '../model';
 
 interface AllTweetsProps {
-  tweetService: TweetService;
+  tweetService: TweetInterface;
 }
 
 const AllTweets = ({ tweetService }: AllTweetsProps) => (
