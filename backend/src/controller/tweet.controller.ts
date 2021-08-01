@@ -44,23 +44,23 @@ const createTweet = async (req: Request, res: Response) => {
 const updateTweet = async (req: Request, res: Response) => {
   const id = req.params.id;
   const text: string = req.body.text;
-  const updatedId = await tweetService.updateTweet(parseInt(id), text);
+  const updated = await tweetService.updateTweet(parseInt(id), text);
 
-  if (!updatedId) {
+  if (!updated) {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });
   }
 
-  res.status(200).json({ id });
+  res.status(200).json(updated);
 };
 
 const deleteTweet = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const deletedId = await tweetService.deleteTweet(parseInt(id));
+  const deleted = await tweetService.deleteTweet(parseInt(id));
 
-  if (!deletedId) {
+  if (!deleted) {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });
   }
-  res.status(200).json({ id });
+  res.status(200).json(deleted);
 };
 
 export { getTweets, getTweetById, createTweet, updateTweet, deleteTweet };

@@ -30,9 +30,11 @@ export default class TweetService implements TweetInterface {
   }
 
   async updateTweet(tweetId: number, text: string) {
-    return this.httpClient.put<TweetModel>(`/tweets/${tweetId}`, {
+    const test = await this.httpClient.put<TweetModel>(`/tweets/${tweetId}`, {
       body: JSON.stringify({ text }),
     });
+    console.log(test);
+    return test;
   }
 
   async deleteTweet(tweetId: number) {
