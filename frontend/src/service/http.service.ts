@@ -1,8 +1,8 @@
 import { HttpClientInterface } from '../model';
 
 export class HttpClientService implements HttpClientInterface {
-  baseUrl: string;
-  requestInit: RequestInit;
+  private readonly baseUrl: string;
+  private readonly requestInit: RequestInit;
 
   constructor(baseUrl: string, init?: RequestInit) {
     this.baseUrl = baseUrl;

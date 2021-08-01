@@ -1,6 +1,4 @@
 export interface HttpClientInterface {
-  baseUrl: string;
-  requestInit?: RequestInit;
   fetch<T>(url: string, options?: RequestInit): Promise<T>;
   get<T>(url: string, options?: RequestInit): Promise<T>;
   post<T>(url: string, options?: RequestInit): Promise<T>;
