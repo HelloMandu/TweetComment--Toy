@@ -1,6 +1,6 @@
-import { Tweet, TweetModel } from '../model/tweet.model';
+import { TweetServiceInterface, TweetModel } from '../model/tweet.model';
 
-class TweetService implements Tweet {
+class TweetService implements TweetServiceInterface {
   tweets: TweetModel[];
 
   constructor(tweets: TweetModel[]) {
@@ -27,20 +27,21 @@ class TweetService implements Tweet {
     this.tweets.push(newTweet);
   }
 
-  async updateTweet(id: number, text: string): Promise<number | null> {
+  async updateTweet(id: number, text: string): Promise<TweetModel | undefined> {
     if (!this.hasTweet(id)) {
-      return null;
+      return;
     }
     this.tweets = this.tweets.map((tweet) => (tweet.id === id ? { ...tweet, text } : tweet));
-    return id;
+    return this.tweets.find((tweet) => tweet.id === id);
   }
 
-  async deleteTweet(id: number): Promise<number | null> {
+  async deleteTweet(id: number): Promise<TweetModel | undefined> {
     if (!this.hasTweet(id)) {
-      return null;
+      return;
     }
+    const prevDeleteTweets = [...this.tweets];
     this.tweets = this.tweets.filter((tweet) => tweet.id !== id);
-    return id;
+    return prevDeleteTweets.find((tweet) => tweet.id === id);
   }
 }
 
