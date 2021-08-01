@@ -56,6 +56,14 @@ export class HttpClientService implements HttpClientInterface {
     }
   }
 
+  async patch<T>(url: string, options?: RequestInit) {
+    try {
+      return this.fetch(url, this.requestOptions({ method: 'PATCH', ...options }));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async delete<T>(url: string, options?: RequestInit) {
     try {
       return this.fetch(url, this.requestOptions({ method: 'DELETE', ...options }));
