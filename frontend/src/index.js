@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import AuthService from './service/auth';
-import TweetService from './service/tweet';
+import TweetService from './service/tweet.service';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { AuthErrorEventBus } from './context/AuthContext';
@@ -16,10 +16,7 @@ const tweetService = new TweetService(baseURL);
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider
-        authService={authService}
-        authErrorEventBus={authErrorEventBus}
-      >
+      <AuthProvider authService={authService} authErrorEventBus={authErrorEventBus}>
         <App tweetService={tweetService} />
       </AuthProvider>
     </BrowserRouter>

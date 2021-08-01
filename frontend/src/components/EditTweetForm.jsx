@@ -14,21 +14,21 @@ const EditTweetForm = ({ tweet, onUpdate, onClose }) => {
   };
 
   return (
-    <form className='edit-tweet-form' onSubmit={onSubmit}>
+    <form className="edit-tweet-form" onSubmit={onSubmit}>
       <input
-        type='text'
-        placeholder='Edit your tweet'
+        type="text"
+        placeholder="Edit your tweet"
         value={text}
         required
         autoFocus
         onChange={onChange}
-        className='form-input tweet-input'
+        className="form-input tweet-input"
       />
-      <div className='edit-tweet-form-action'>
-        <button type='submit' className='form-btn-update'>
+      <div className="edit-tweet-form-action">
+        <button type="submit" className="form-btn-update">
           Update
         </button>
-        <button type='button' className='form-btn-cancel' onClick={onClose}>
+        <button type="button" className="form-btn-cancel" onClick={onClose}>
           Cancel
         </button>
       </div>
