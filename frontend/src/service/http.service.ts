@@ -4,7 +4,10 @@ export class HttpClientService implements HttpClientInterface {
   private readonly baseUrl: string;
   private readonly requestInit: RequestInit;
 
-  constructor(baseUrl: string, init?: RequestInit) {
+  constructor(baseUrl?: string, init?: RequestInit) {
+    if (!baseUrl || !process.env.REACT_APP_BASE_URL) {
+      throw new Error('baseUrl is undefined');
+    }
     this.baseUrl = baseUrl;
     this.requestInit = init ?? {
       headers: {
@@ -23,7 +26,7 @@ export class HttpClientService implements HttpClientInterface {
       throw new Error('Response failed');
     }
     try {
-      return await response.json();
+      return response.json();
     } catch (error) {
       console.error(error);
     }
@@ -31,7 +34,7 @@ export class HttpClientService implements HttpClientInterface {
 
   async get<T>(url: string, options?: RequestInit) {
     try {
-      return await this.fetch(url, this.requestOptions({ method: 'GET', ...options }));
+      return this.fetch(url, this.requestOptions({ method: 'GET', ...options }));
     } catch (error) {
       console.error(error);
     }
@@ -39,7 +42,7 @@ export class HttpClientService implements HttpClientInterface {
 
   async post<T>(url: string, options?: RequestInit) {
     try {
-      return await this.fetch(url, this.requestOptions({ method: 'POST', ...options }));
+      return this.fetch(url, this.requestOptions({ method: 'POST', ...options }));
     } catch (error) {
       console.error(error);
     }
@@ -47,7 +50,7 @@ export class HttpClientService implements HttpClientInterface {
 
   async put<T>(url: string, options?: RequestInit) {
     try {
-      return await this.fetch(url, this.requestOptions({ method: 'PUT', ...options }));
+      return this.fetch(url, this.requestOptions({ method: 'PUT', ...options }));
     } catch (error) {
       console.error(error);
     }
@@ -55,7 +58,7 @@ export class HttpClientService implements HttpClientInterface {
 
   async delete<T>(url: string, options?: RequestInit) {
     try {
-      return await this.fetch(url, this.requestOptions({ method: 'DELETE', ...options }));
+      return this.fetch(url, this.requestOptions({ method: 'DELETE', ...options }));
     } catch (error) {
       console.error(error);
     }
