@@ -10,7 +10,7 @@ export type TweetModel = {
 export interface TweetInterface {
   getTweets(username?: string): Promise<TweetModel | TweetModel[]>;
   getTweetsById(id: number): Promise<TweetModel>;
-  postTweet(text: string, username: string, user: string): Promise<Pick<TweetModel, 'id'>>;
-  updateTweet(tweetId: number, text: string): Promise<Pick<TweetModel, 'id'>>;
-  deleteTweet(tweetId: number): Promise<Pick<TweetModel, 'id'>>;
+  postTweet(text: string, username: string, user: string): Promise<TweetModel>;
+  updateTweet(tweetId: number, text: string): Promise<TweetModel>;
+  deleteTweet(tweetId: number): Promise<TweetModel>;
 }

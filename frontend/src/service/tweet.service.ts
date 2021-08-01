@@ -20,7 +20,7 @@ export default class TweetService implements TweetInterface {
   }
 
   async postTweet(text: string, username: string, user: string) {
-    return this.httpClient.post<Pick<TweetModel, 'id'>>(`/tweets`, {
+    return this.httpClient.post<TweetModel>(`/tweets`, {
       body: JSON.stringify({
         text,
         username,
@@ -30,12 +30,12 @@ export default class TweetService implements TweetInterface {
   }
 
   async updateTweet(tweetId: number, text: string) {
-    return this.httpClient.put<Pick<TweetModel, 'id'>>(`/tweets/${tweetId}`, {
+    return this.httpClient.put<TweetModel>(`/tweets/${tweetId}`, {
       body: JSON.stringify({ text }),
     });
   }
 
   async deleteTweet(tweetId: number) {
-    return this.httpClient.delete<Pick<TweetModel, 'id'>>(`/tweets/${tweetId}`);
+    return this.httpClient.delete<TweetModel>(`/tweets/${tweetId}`);
   }
 }
