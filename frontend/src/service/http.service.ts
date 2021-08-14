@@ -20,7 +20,7 @@ export class HttpClientService implements HttpClientInterface {
     return { ...options, ...this.requestInit };
   }
 
-  async fetch<T>(url: string, options?: RequestInit) {
+  async fetch(url: string, options?: RequestInit) {
     const response = await fetch(`${this.baseUrl}${url}`, this.requestOptions(options));
     if (!response.ok) {
       throw new Error('Response failed');
@@ -32,7 +32,7 @@ export class HttpClientService implements HttpClientInterface {
     }
   }
 
-  async get<T>(url: string, options?: RequestInit) {
+  async get(url: string, options?: RequestInit) {
     try {
       return this.fetch(url, this.requestOptions({ method: 'GET', ...options }));
     } catch (error) {
@@ -40,7 +40,7 @@ export class HttpClientService implements HttpClientInterface {
     }
   }
 
-  async post<T>(url: string, options?: RequestInit) {
+  async post(url: string, options?: RequestInit) {
     try {
       return this.fetch(url, this.requestOptions({ method: 'POST', ...options }));
     } catch (error) {
@@ -48,7 +48,7 @@ export class HttpClientService implements HttpClientInterface {
     }
   }
 
-  async put<T>(url: string, options?: RequestInit) {
+  async put(url: string, options?: RequestInit) {
     try {
       return this.fetch(url, this.requestOptions({ method: 'PUT', ...options }));
     } catch (error) {
@@ -56,7 +56,7 @@ export class HttpClientService implements HttpClientInterface {
     }
   }
 
-  async patch<T>(url: string, options?: RequestInit) {
+  async patch(url: string, options?: RequestInit) {
     try {
       return this.fetch(url, this.requestOptions({ method: 'PATCH', ...options }));
     } catch (error) {
@@ -64,7 +64,7 @@ export class HttpClientService implements HttpClientInterface {
     }
   }
 
-  async delete<T>(url: string, options?: RequestInit) {
+  async delete(url: string, options?: RequestInit) {
     try {
       return this.fetch(url, this.requestOptions({ method: 'DELETE', ...options }));
     } catch (error) {
