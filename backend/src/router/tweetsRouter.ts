@@ -6,6 +6,7 @@ import {
   getTweets,
   updateTweet,
 } from '../controller/tweet.controller';
+import { tweetValidator } from '../middleware/validator/tweet.validator';
 
 const router = express.Router();
 
@@ -13,10 +14,10 @@ router.get('/', getTweets);
 
 router.get('/:id', getTweetById);
 
-router.post('/', createTweet);
+router.post('/', tweetValidator, createTweet);
 
-router.put('/:id', updateTweet);
+router.put('/:id', tweetValidator, updateTweet);
 
-router.delete('/:id', deleteTweet);
+router.delete('/:id', tweetValidator, deleteTweet);
 
 export default router;
