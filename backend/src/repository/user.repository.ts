@@ -8,7 +8,7 @@ class UserRepository implements UserRepositoryInterface {
     this.users = users;
   }
 
-  async findUserById(id: number): Promise<UserModel | undefined> {
+  async findById(id: number): Promise<UserModel | undefined> {
     return mock_users.find((user) => user.id === id);
   }
 }

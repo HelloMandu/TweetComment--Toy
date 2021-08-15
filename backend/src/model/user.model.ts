@@ -9,5 +9,5 @@ export type UserModel = {
 
 export interface UserRepositoryInterface {
   users: UserModel[];
-  findUserById(id: number): Promise<UserModel | undefined>;
+  findById(id: number): Promise<UserModel | undefined>;
 }
