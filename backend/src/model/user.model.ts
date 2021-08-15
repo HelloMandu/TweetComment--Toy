@@ -6,3 +6,8 @@ export type UserModel = {
   email: string;
   url?: string;
 };
+
+export interface UserRepositoryInterface {
+  users: UserModel[];
+  findUserById(id: number): Promise<UserModel | undefined>;
+}

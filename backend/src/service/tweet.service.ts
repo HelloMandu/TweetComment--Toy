@@ -20,7 +20,8 @@ class TweetService implements TweetServiceInterface {
   }
 
   async getTweetsByUsername(username: string): Promise<TweetModel[]> {
-    return this.tweets.filter((tweet) => tweet.user.username === username) ?? [];
+    // return this.tweets.filter((tweet) => tweet.user.username === username) ?? [];
+    return [];
   }
 
   async createTweet(newTweet: TweetModel): Promise<void> {
