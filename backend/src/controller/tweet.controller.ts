@@ -32,7 +32,7 @@ const createTweet = async (req: Request, res: Response) => {
     id: tweets.length + 1,
     text,
     createdAt: new Date(),
-    // TODO: findUser
+    // TODO: fix
     userId: 1,
   };
   await tweetService.createTweet(tweet);

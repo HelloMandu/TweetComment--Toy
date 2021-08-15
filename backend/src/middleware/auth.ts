@@ -1,14 +1,13 @@
-import { Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import UserRepository from '../repository/user.repository';
 import { mock_users } from '../data/mock_users';
-import { AuthRequest } from '../model/auth.model';
 
 const TEMP_KEY = 'TEMP';
 const AUTH_ERROR = { message: 'Authentication Error' };
 const userRepository = new UserRepository(mock_users);
 
-export const isAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
+export const isAuth = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.get('Authorization');
   if (!(authHeader && authHeader.startsWith('Bearer '))) {
     return res.status(401).json(AUTH_ERROR);
