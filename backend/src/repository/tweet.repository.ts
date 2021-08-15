@@ -7,7 +7,7 @@ class TweetRepository implements TweetRepositoryInterface {
     this.tweets = tweets;
   }
 
-  private hasTweet(id: number): boolean {
+  private hasTweet(id: string): boolean {
     return this.tweets.some((tweet) => tweet.id === id);
   }
 
@@ -15,7 +15,7 @@ class TweetRepository implements TweetRepositoryInterface {
     return this.tweets;
   }
 
-  async getTweetById(id: number): Promise<TweetModel | undefined> {
+  async getTweetById(id: string): Promise<TweetModel | undefined> {
     return this.tweets.find((tweet) => tweet.id === id);
   }
 
@@ -28,7 +28,7 @@ class TweetRepository implements TweetRepositoryInterface {
     this.tweets.push(newTweet);
   }
 
-  async updateTweet(id: number, text: string): Promise<TweetModel | undefined> {
+  async updateTweet(id: string, text: string): Promise<TweetModel | undefined> {
     if (!this.hasTweet(id)) {
       return;
     }
@@ -36,7 +36,7 @@ class TweetRepository implements TweetRepositoryInterface {
     return this.tweets.find((tweet) => tweet.id === id);
   }
 
-  async deleteTweet(id: number): Promise<TweetModel | undefined> {
+  async deleteTweet(id: string): Promise<TweetModel | undefined> {
     if (!this.hasTweet(id)) {
       return;
     }

@@ -1,5 +1,5 @@
 export type UserModel = {
-  id: number;
+  id: string;
   username: string;
   password: string;
   name: string;
@@ -9,7 +9,7 @@ export type UserModel = {
 
 export interface UserRepositoryInterface {
   users: UserModel[];
-  findById(id: number): Promise<UserModel | undefined>;
+  findById(id: string): Promise<UserModel | undefined>;
   findByUsername(username: string): Promise<UserModel | undefined>;
   createUser(user: Omit<UserModel, 'id'>): Promise<UserModel>;
 }

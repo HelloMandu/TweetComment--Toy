@@ -8,7 +8,7 @@ class UserRepository implements UserRepositoryInterface {
     this.users = users;
   }
 
-  async findById(id: number): Promise<UserModel | undefined> {
+  async findById(id: string): Promise<UserModel | undefined> {
     return mock_users.find((user) => user.id === id);
   }
 
@@ -17,7 +17,7 @@ class UserRepository implements UserRepositoryInterface {
   }
 
   async createUser(user: Omit<UserModel, 'id'>): Promise<UserModel> {
-    const newUser = { id: mock_users.length + 1, ...user };
+    const newUser = { id: (mock_users.length + 1).toString(), ...user };
     mock_users.push(newUser);
     return newUser;
   }
