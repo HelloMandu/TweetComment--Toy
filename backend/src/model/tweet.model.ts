@@ -1,10 +1,8 @@
-import { UserModel } from './user.model';
-
 export type TweetModel = {
   id: number;
   text: string;
   createdAt: Date;
-  user: UserModel;
+  userId: number;
 };
 
 export interface TweetServiceInterface {
