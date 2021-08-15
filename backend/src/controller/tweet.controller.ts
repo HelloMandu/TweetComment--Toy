@@ -1,9 +1,9 @@
 import { tweets } from '../data/mock_tweets';
 import { Request, Response } from 'express';
-import TweetService from '../service/tweet.service';
+import TweetRepository from '../repository/tweet.repository';
 import { TweetModel } from '../model/tweet.model';
 
-const tweetService = new TweetService(tweets);
+const tweetService = new TweetRepository(tweets);
 
 const getTweets = async (req: Request, res: Response) => {
   const username = req.query.username;

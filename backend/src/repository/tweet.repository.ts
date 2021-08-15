@@ -1,6 +1,6 @@
-import { TweetServiceInterface, TweetModel } from '../model/tweet.model';
+import { TweetRepositoryInterface, TweetModel } from '../model/tweet.model';
 
-class TweetService implements TweetServiceInterface {
+class TweetRepository implements TweetRepositoryInterface {
   tweets: TweetModel[];
 
   constructor(tweets: TweetModel[]) {
@@ -46,4 +46,4 @@ class TweetService implements TweetServiceInterface {
   }
 }
 
-export default TweetService;
+export default TweetRepository;

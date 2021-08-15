@@ -5,7 +5,7 @@ export type TweetModel = {
   userId: number;
 };
 
-export interface TweetServiceInterface {
+export interface TweetRepositoryInterface {
   tweets: TweetModel[];
   getTweets(): Promise<TweetModel[]>;
   getTweetById(id: number): Promise<TweetModel | undefined>;

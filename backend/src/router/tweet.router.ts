@@ -15,10 +15,10 @@ router.get('/', isAuth, getTweets);
 
 router.get('/:id', isAuth, getTweetById);
 
-router.post('/', tweetValidator, isAuth, createTweet);
+router.post('/', isAuth, tweetValidator, createTweet);
 
-router.put('/:id', tweetValidator, isAuth, updateTweet);
+router.put('/:id', isAuth, tweetValidator, updateTweet);
 
-router.delete('/:id', tweetValidator, isAuth, deleteTweet);
+router.delete('/:id', isAuth, tweetValidator, deleteTweet);
 
 export default router;
