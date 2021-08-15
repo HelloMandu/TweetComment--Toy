@@ -4,20 +4,9 @@ import TweetRepository from '../repository/tweet.repository';
 import { TweetModel } from '../model/tweet.model';
 import UserRepository from '../repository/user.repository';
 import { mock_users } from '../data/mock_users';
-import { UserModel } from '../model/user.model';
 
 const tweetRepository = new TweetRepository(mock_tweets);
 const userRepository = new UserRepository(mock_users);
-
-const getAll = async (): Promise<{ tweet: TweetModel; user?: UserModel }[]> => {
-  const tweets = await tweetRepository.getTweets();
-  return Promise.all(
-    tweets.map(async (tweet) => {
-      const user = await userRepository.findById(tweet.id);
-      return { tweet, user };
-    })
-  );
-};
 
 const getTweets = async (req: Request, res: Response) => {
   const username = req.query.username;
@@ -30,9 +19,11 @@ const getTweets = async (req: Request, res: Response) => {
     return res.status(403).json({ message: 'username is invalid' });
   }
 
-  const tweets = await (username
-    ? getAll().then((tweets) => tweets.filter(({ user }) => user?.username === username))
-    : getAll());
+  const tweets = await (user
+    ? tweetRepository
+        .getTweets()
+        .then((tweets) => tweets.filter((tweet) => tweet.userId === user.id))
+    : tweetRepository.getTweets());
   res.status(200).json(tweets ?? []);
 };
 
