@@ -11,6 +11,16 @@ class UserRepository implements UserRepositoryInterface {
   async findById(id: number): Promise<UserModel | undefined> {
     return mock_users.find((user) => user.id === id);
   }
+
+  async findByUsername(username: string): Promise<UserModel | undefined> {
+    return mock_users.find((user) => user.username === username);
+  }
+
+  async createUser(user: Omit<UserModel, 'id'>): Promise<UserModel> {
+    const newUser = { id: mock_users.length + 1, ...user };
+    mock_users.push(newUser);
+    return newUser;
+  }
 }
 
 export default UserRepository;
