@@ -19,11 +19,6 @@ class TweetRepository implements TweetRepositoryInterface {
     return this.tweets.find((tweet) => tweet.id === id);
   }
 
-  async getTweetsByUsername(username: string): Promise<TweetModel[]> {
-    // return this.tweets.filter((tweet) => tweet.user.username === username) ?? [];
-    return [];
-  }
-
   async createTweet(newTweet: TweetModel): Promise<void> {
     this.tweets.push(newTweet);
   }

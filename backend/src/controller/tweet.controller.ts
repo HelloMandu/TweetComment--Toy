@@ -1,24 +1,44 @@
-import { tweets } from '../data/mock_tweets';
+import { mock_tweets } from '../data/mock_tweets';
 import { Request, Response } from 'express';
 import TweetRepository from '../repository/tweet.repository';
 import { TweetModel } from '../model/tweet.model';
+import UserRepository from '../repository/user.repository';
+import { mock_users } from '../data/mock_users';
+import { UserModel } from '../model/user.model';
 
-const tweetService = new TweetRepository(tweets);
+const tweetRepository = new TweetRepository(mock_tweets);
+const userRepository = new UserRepository(mock_users);
+
+const getAll = async (): Promise<{ tweet: TweetModel; user?: UserModel }[]> => {
+  const tweets = await tweetRepository.getTweets();
+  return Promise.all(
+    tweets.map(async (tweet) => {
+      const user = await userRepository.findById(tweet.id);
+      return { tweet, user };
+    })
+  );
+};
 
 const getTweets = async (req: Request, res: Response) => {
   const username = req.query.username;
   if (username && typeof username !== 'string') {
     return res.status(403).json({ message: 'username is invalid' });
   }
+
+  const user = await (username && userRepository.findByUsername(username));
+  if (username && !user) {
+    return res.status(403).json({ message: 'username is invalid' });
+  }
+
   const tweets = await (username
-    ? tweetService.getTweetsByUsername(username)
-    : tweetService.getTweets());
+    ? getAll().then((tweets) => tweets.filter(({ user }) => user?.username === username))
+    : getAll());
   res.status(200).json(tweets ?? []);
 };
 
 const getTweetById = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const tweet = await tweetService.getTweetById(parseInt(id));
+  const tweet = await tweetRepository.getTweetById(id);
   if (!tweet) {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });
   }
@@ -26,23 +46,36 @@ const getTweetById = async (req: Request, res: Response) => {
 };
 
 const createTweet = async (req: Request, res: Response) => {
-  const { text, name, username } = req.body;
-  const tweets = await tweetService.getTweets();
-  const tweet: TweetModel = {
-    id: tweets.length + 1,
+  const { text } = req.body;
+
+  const { userId } = req;
+  if (!userId) {
+    return res.status(404).json({ message: `User ${userId} is not found` });
+  }
+
+  const user = await userRepository.findById(userId);
+
+  if (!user) {
+    return res.status(403).json({ message: 'username is invalid' });
+  }
+
+  const tweets = await tweetRepository.getTweets();
+
+  const newTweet: TweetModel = {
+    id: (tweets.length + 1).toString(),
     text,
     createdAt: new Date(),
-    // TODO: fix
-    userId: 1,
+    userId,
   };
-  await tweetService.createTweet(tweet);
-  res.status(201).json(tweet);
+
+  await tweetRepository.createTweet(newTweet);
+  res.status(201).json(newTweet);
 };
 
 const updateTweet = async (req: Request, res: Response) => {
   const id = req.params.id;
   const text: string = req.body.text;
-  const updated = await tweetService.updateTweet(parseInt(id), text);
+  const updated = await tweetRepository.updateTweet(id, text);
 
   if (!updated) {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });
@@ -53,7 +86,7 @@ const updateTweet = async (req: Request, res: Response) => {
 
 const deleteTweet = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const deleted = await tweetService.deleteTweet(parseInt(id));
+  const deleted = await tweetRepository.deleteTweet(id);
 
   if (!deleted) {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });

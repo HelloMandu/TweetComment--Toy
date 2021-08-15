@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import UserRepository from '../repository/user.repository';
 import { mock_users } from '../data/mock_users';
 
-const TEMP_KEY = 'TEMP';
+export const JWT_SECRET_KEY = 'TEMP';
 const AUTH_ERROR = { message: 'Authentication Error' };
 const userRepository = new UserRepository(mock_users);
 
@@ -15,7 +15,7 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
 
   const token = authHeader.split(' ')[1];
 
-  jwt.verify(token, TEMP_KEY, async (err, decoded) => {
+  jwt.verify(token, JWT_SECRET_KEY, async (err, decoded) => {
     if (err || !decoded) {
       return res.status(401).json(AUTH_ERROR);
     }

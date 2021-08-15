@@ -1,16 +1,16 @@
 import { TweetModel } from '../model/tweet.model';
 
-export const tweets: TweetModel[] = [
+export const mock_tweets: TweetModel[] = [
   {
-    id: 1,
+    id: '1',
     text: 'first tweet',
     createdAt: new Date(),
-    userId: 1,
+    userId: '1',
   },
   {
-    id: 2,
+    id: '2',
     text: 'second tweet',
     createdAt: new Date(),
-    userId: 2,
+    userId: '1',
   },
 ];

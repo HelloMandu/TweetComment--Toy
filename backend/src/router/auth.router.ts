@@ -4,8 +4,8 @@ import { validateCredential, validateSignUp } from '../middleware/validator/auth
 
 const router = express.Router();
 
-router.post('/signUp', validateCredential, signUp);
+router.post('/signUp', validateSignUp, signUp);
 
-router.put('/login', validateSignUp, login);
+router.get('/login', validateCredential, login);
 
 export default router;
