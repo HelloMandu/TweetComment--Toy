@@ -1,6 +1,6 @@
 import { HttpClientInterface } from '../model';
 
-export class HttpClientService implements HttpClientInterface {
+export default class HttpClientService implements HttpClientInterface {
   private readonly baseUrl: string;
   private readonly requestInit: RequestInit;
 
