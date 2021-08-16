@@ -8,6 +8,10 @@ import { mock_users } from '../data/mock_users';
 const tweetRepository = new TweetRepository(mock_tweets);
 const userRepository = new UserRepository(mock_users);
 
+const isMe = (id: string, userId: string) => {
+  return id === userId;
+};
+
 const getTweets = async (req: Request, res: Response) => {
   const username = req.query.username;
   if (username && typeof username !== 'string') {
@@ -72,6 +76,10 @@ const updateTweet = async (req: Request, res: Response) => {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });
   }
 
+  if (!isMe(id, updated.userId)) {
+    return res.sendStatus(403);
+  }
+
   res.status(200).json(updated);
 };
 
@@ -82,6 +90,11 @@ const deleteTweet = async (req: Request, res: Response) => {
   if (!deleted) {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });
   }
+
+  if (!isMe(id, deleted.userId)) {
+    return res.sendStatus(403);
+  }
+
   res.status(200).json(deleted);
 };
 
