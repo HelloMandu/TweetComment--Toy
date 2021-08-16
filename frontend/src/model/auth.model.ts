@@ -13,7 +13,7 @@ export interface TokenServiceInterface {
 
 export interface AuthServiceInterface {
   login(username: string, password: string): Promise<Auth>;
-  me(): Promise<{ token: string | null; user: UserInfo }>;
+  me(): Promise<Auth>;
   logout(): void;
   signup(
     username: string,

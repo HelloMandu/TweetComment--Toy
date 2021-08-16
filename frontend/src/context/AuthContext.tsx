@@ -29,7 +29,7 @@ export function AuthProvider({
   children,
 }: PropsWithChildren<AuthProviderProps>) {
   const [user, setUser] = useState<UserInfo>();
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string>('');
 
   useImperativeHandle(contextRef, () => token);
 
@@ -57,8 +57,11 @@ export function AuthProvider({
   );
 
   const logIn = useCallback(
-    async (username, password) => {},
-    // authService.login(username, password).then((user) => setUser(user)),
+    async (username, password) =>
+      authService.login(username, password).then(({ token, user }) => {
+        setUser(user);
+        setToken(token);
+      }),
     [authService]
   );
 
@@ -75,7 +78,7 @@ export function AuthProvider({
         children
       ) : (
         <div className="app">
-          {/*<Header />*/}
+          <Header onLogout={logout} />
           <Login onSignUp={signUp} onLogin={logIn} />
         </div>
       )}

@@ -1,13 +1,13 @@
 import React, { memo } from 'react';
 
 interface HeaderProps {
-  username: any;
-  onLogout: any;
-  onMyTweets: any;
-  onAllTweets: any;
+  username?: string;
+  onLogout: () => void;
+  onAllTweets?: () => void;
+  onMyTweets?: () => void;
 }
 
-const Header = memo(({ username, onLogout, onMyTweets, onAllTweets }: HeaderProps) => {
+const Header = memo(({ username, onLogout, onAllTweets, onMyTweets }: HeaderProps) => {
   return (
     <header className="header">
       <div className="logo">

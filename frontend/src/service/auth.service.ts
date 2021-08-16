@@ -25,7 +25,7 @@ export default class AuthService implements AuthServiceInterface {
   }
 
   async login(username: string, password: string): Promise<Auth> {
-    return this.httpClient.get('/auth/login', {
+    return this.httpClient.post('/auth/login', {
       body: JSON.stringify({ username, password }),
     });
   }
