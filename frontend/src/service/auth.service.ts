@@ -17,27 +17,29 @@ export default class AuthService implements AuthServiceInterface {
     email: string,
     url?: string
   ): Promise<UserInfo> {
-    const { token, user } = await this.httpClient.post<{ token: string; user: UserInfo }>(
-      '/auth/signup',
-      {
-        body: JSON.stringify({ username, password, name, email, url }),
-      }
-    );
+    const { token, user } = await this.httpClient.post<Auth>('/auth/signup', {
+      body: JSON.stringify({ username, password, name, email, url }),
+    });
     this.tokenService.setToken = token;
     return user;
   }
 
   async login(username: string, password: string): Promise<Auth> {
-    return this.httpClient.get<Auth>('/auth/login', {
+    return this.httpClient.get('/auth/login', {
       body: JSON.stringify({ username, password }),
     });
   }
 
-  async me() {
-    // 보류
+  async me(): Promise<Auth> {
+    const token = this.tokenService.getToken;
+    const user: UserInfo = await this.httpClient.get<UserInfo>('/auth/me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return {
-      username: 'mandu',
-      token: 'temp',
+      token,
+      user,
     };
   }
 

@@ -50,8 +50,20 @@ const login = async (req: Request, res: Response) => {
   res.status(201).json({ token, user });
 };
 
+const me = async (req: Request, res: Response) => {
+  const { userId } = req;
+  if (!userId) {
+    return res.status(404).json({ message: `User ${userId} is not found` });
+  }
+  const user = await userRepository.findById(userId);
+  if (!user) {
+    return res.status(404).json({ message: `User ${userId} is not found` });
+  }
+  return res.status(200).json(user);
+};
+
 const createToken = (id: string) => {
   return jwt.sign({ id }, JWT_SECRET_KEY, { expiresIn: JWT_EXPIRES_IN_DAY });
 };
 
-export { signUp, login };
+export { signUp, login, me };

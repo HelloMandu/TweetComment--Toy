@@ -11,9 +11,9 @@ import TokenService from './service/token.service';
 import HttpClientService from './service/http.service';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
+const tokenService = new TokenService();
 const httpClient = new HttpClientService(baseURL);
 const authErrorEventBus = new AuthErrorEventBus();
-const tokenService = new TokenService();
 const authService = new AuthService(httpClient, tokenService);
 const tweetService = new TweetService(httpClient);
 
