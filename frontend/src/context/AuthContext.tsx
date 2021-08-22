@@ -14,7 +14,20 @@ import Login from '../pages/Login';
 import { AuthServiceInterface } from '../model/auth.model';
 import { UserInfo } from '../model';
 
-const AuthContext = createContext({});
+interface AuthContextType {
+  user?: UserInfo;
+  signUp: (
+    username: string,
+    password: string,
+    name: string,
+    email: string,
+    url: string
+  ) => Promise<void>;
+  logIn: (username: string, password: string) => Promise<void>;
+  logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const contextRef = createRef();
 
@@ -108,4 +121,10 @@ export class AuthErrorEventBus implements AuthErrorEventBusInterface {
 
 export default AuthContext;
 export const fetchToken = () => contextRef.current;
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const auth = useContext(AuthContext);
+  if (!auth) {
+    throw Error('Auth Info is undefined');
+  }
+  return auth;
+};

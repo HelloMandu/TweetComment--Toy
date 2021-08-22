@@ -7,10 +7,15 @@ export type TweetModel = {
   userId: string;
 };
 
+export type TweetResult = {
+  tweet: TweetModel;
+  user?: UserModel;
+};
+
 export interface TweetInterface {
-  getTweets(username?: string): Promise<{ tweet: TweetModel; user?: UserModel }[]>;
-  getTweetsById(id: number): Promise<TweetModel>;
-  createTweet(text: string, username: string, user: string): Promise<TweetModel>;
-  updateTweet(tweetId: number, text: string): Promise<TweetModel>;
+  getTweets(username?: string): Promise<TweetResult[]>;
+  getTweetsById(id: number): Promise<TweetResult>;
+  createTweet(text: string, username: string, user: string): Promise<TweetResult>;
+  updateTweet(tweetId: number, text: string): Promise<TweetResult>;
   deleteTweet(tweetId: number): Promise<TweetModel>;
 }

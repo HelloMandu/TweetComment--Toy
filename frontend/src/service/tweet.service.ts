@@ -1,8 +1,8 @@
-import { HttpClientInterface, TweetInterface, TweetModel, UserModel } from '../model';
+import { HttpClientInterface, TweetInterface, TweetModel, TweetResult } from '../model';
 
 export default class TweetService implements TweetInterface {
   httpClient: HttpClientInterface;
-  tweets: { tweet: TweetModel; user?: UserModel }[];
+  tweets: TweetResult[];
 
   constructor(httpClient: HttpClientInterface) {
     this.httpClient = httpClient;
@@ -18,11 +18,11 @@ export default class TweetService implements TweetInterface {
   }
 
   async getTweetsById(id: number) {
-    return this.httpClient.get<TweetModel>(`/tweets/${id}`);
+    return this.httpClient.get<TweetResult>(`/tweets/${id}`);
   }
 
   async createTweet(text: string, username: string, user: string) {
-    return this.httpClient.post<TweetModel>(`/tweets`, {
+    return this.httpClient.post<TweetResult>(`/tweets`, {
       body: JSON.stringify({
         text,
         username,
@@ -32,7 +32,7 @@ export default class TweetService implements TweetInterface {
   }
 
   async updateTweet(tweetId: number, text: string) {
-    return this.httpClient.put<TweetModel>(`/tweets/${tweetId}`, {
+    return this.httpClient.put<TweetResult>(`/tweets/${tweetId}`, {
       body: JSON.stringify({ text }),
     });
   }
