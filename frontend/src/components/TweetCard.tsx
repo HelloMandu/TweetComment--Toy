@@ -6,7 +6,7 @@ import { TweetModel, UserModel } from '../model';
 
 interface TweetCardProps {
   tweet: TweetModel;
-  user?: UserModel;
+  user: UserModel;
   owner: boolean;
   onUpdate(tweetId: number, text: string): Promise<string | void>;
   onDelete(tweetId: number): Promise<void>;
@@ -16,10 +16,10 @@ interface TweetCardProps {
 const TweetCard = memo(
   ({ tweet, user, owner, onDelete, onUpdate, onUsernameClick }: TweetCardProps) => {
     const { id, text, createdAt } = tweet;
+    const { url, username, name } = user;
     const [editing, setEditing] = useState(false);
     const onClose = () => setEditing(false);
 
-    const { url, username, name } = user!;
     return (
       <li className="tweet">
         <section className="tweet-container">

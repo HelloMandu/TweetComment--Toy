@@ -69,7 +69,7 @@ const Tweets = memo(({ tweetService, username, addable }: TweetsProps) => {
             key={tweetItem.tweet.id}
             tweet={tweetItem.tweet}
             user={tweetItem.user}
-            owner={tweetItem.user?.username === user?.username}
+            owner={tweetItem.user.username === user?.username}
             onDelete={onDelete}
             onUpdate={onUpdate}
             onUsernameClick={onUsernameClick}
