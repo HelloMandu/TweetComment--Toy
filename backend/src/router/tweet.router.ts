@@ -19,6 +19,6 @@ router.post('/', isAuth, tweetValidator, createTweet);
 
 router.put('/:id', isAuth, tweetValidator, updateTweet);
 
-router.delete('/:id', isAuth, tweetValidator, deleteTweet);
+router.delete('/:id', isAuth, deleteTweet);
 
 export default router;

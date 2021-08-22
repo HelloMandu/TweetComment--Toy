@@ -10,7 +10,7 @@ export default class TweetService implements TweetInterface {
   }
 
   async getTweets(username?: string) {
-    const usernameUrl = username ? `/username=${username}` : '';
+    const usernameUrl = username ? `?username=${username}` : '';
     this.tweets = await this.httpClient.get(`/tweets${usernameUrl}`);
     return username
       ? this.tweets.filter((tweet) => tweet.user?.username === username)
