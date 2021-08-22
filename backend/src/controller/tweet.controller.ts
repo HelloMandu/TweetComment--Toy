@@ -29,7 +29,8 @@ const getTweets = async (req: Request, res: Response) => {
     tweets.map(async (tweet) => {
       const user = await userRepository.findById(tweet.userId);
       if (!user) {
-        return { tweet };
+        // TODO: 해당 부분 어떻게 해결할지 생각해볼 것
+        throw Error('Can not find user');
       }
       const { name, username, url } = user;
       return { tweet, user: { name, username, url } };
@@ -46,6 +47,10 @@ const getTweetById = async (req: Request, res: Response) => {
   }
 
   const user = await userRepository.findById(tweet.userId);
+
+  if (!user) {
+    throw Error('Can not find user');
+  }
 
   res.status(200).json({ tweet, user });
 };
@@ -88,6 +93,10 @@ const updateTweet = async (req: Request, res: Response) => {
   }
 
   const user = await userRepository.findById(updated.userId);
+
+  if (!user) {
+    throw Error('Can not find user');
+  }
 
   res.status(200).json({ tweet: updated, user });
 };

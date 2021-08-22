@@ -9,7 +9,7 @@ export type TweetModel = {
 
 export type TweetResult = {
   tweet: TweetModel;
-  user?: UserModel;
+  user: UserModel;
 };
 
 export interface TweetRepositoryInterface {
