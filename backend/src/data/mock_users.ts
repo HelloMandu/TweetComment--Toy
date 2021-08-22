@@ -1,6 +1,6 @@
-import { UserModel } from '../model/user.model';
+import { UserInfo } from '../model/userInfo';
 
-export const mock_users: UserModel[] = [
+export const mock_users: UserInfo[] = [
   {
     id: '1',
     username: 'mandu',

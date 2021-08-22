@@ -4,11 +4,11 @@ export type TweetModel = {
   id: number;
   text: string;
   createdAt: Date;
-  user: UserModel;
+  userId: string;
 };
 
 export interface TweetInterface {
-  getTweets(username?: string): Promise<TweetModel[]>;
+  getTweets(username?: string): Promise<{ tweet: TweetModel; user?: UserModel }[]>;
   getTweetsById(id: number): Promise<TweetModel>;
   createTweet(text: string, username: string, user: string): Promise<TweetModel>;
   updateTweet(tweetId: number, text: string): Promise<TweetModel>;

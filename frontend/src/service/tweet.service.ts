@@ -1,8 +1,8 @@
-import { HttpClientInterface, TweetInterface, TweetModel } from '../model';
+import { HttpClientInterface, TweetInterface, TweetModel, UserModel } from '../model';
 
 export default class TweetService implements TweetInterface {
   httpClient: HttpClientInterface;
-  tweets: TweetModel[];
+  tweets: { tweet: TweetModel; user?: UserModel }[];
 
   constructor(httpClient: HttpClientInterface) {
     this.httpClient = httpClient;
@@ -12,7 +12,9 @@ export default class TweetService implements TweetInterface {
   async getTweets(username?: string) {
     const usernameUrl = username ? `/username=${username}` : '';
     this.tweets = await this.httpClient.get(`/tweets${usernameUrl}`);
-    return username ? this.tweets.filter((tweet) => tweet.user.username === username) : this.tweets;
+    return username
+      ? this.tweets.filter((tweet) => tweet.user?.username === username)
+      : this.tweets;
   }
 
   async getTweetsById(id: number) {

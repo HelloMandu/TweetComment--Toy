@@ -4,7 +4,7 @@ import TweetRepository from '../repository/tweet.repository';
 import { TweetModel } from '../model/tweet.model';
 import UserRepository from '../repository/user.repository';
 import { mock_users } from '../data/mock_users';
-import { UserModel } from '../model/user.model';
+import { UserModel } from '../model/userInfo';
 
 const tweetRepository = new TweetRepository(mock_tweets);
 const userRepository = new UserRepository(mock_users);
@@ -33,7 +33,11 @@ const getTweets = async (req: Request, res: Response) => {
   const tweetWithUser: { tweet: TweetModel; user?: UserModel }[] = await Promise.all(
     tweets.map(async (tweet) => {
       const user = await userRepository.findById(tweet.userId);
-      return { tweet, user };
+      if (!user) {
+        return { tweet };
+      }
+      const { name, username, url } = user;
+      return { tweet, user: { name, username, url } };
     })
   );
   res.status(200).json(tweetWithUser ?? []);

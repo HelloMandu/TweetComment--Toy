@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import UserRepository from '../repository/user.repository';
 import { mock_users } from '../data/mock_users';
-import { UserModel } from '../model/user.model';
+import { UserInfo } from '../model/userInfo';
 import { JWT_SECRET_KEY } from '../middleware/auth';
 
 const JWT_EXPIRES_IN_DAY = '1d';
@@ -12,7 +12,7 @@ const BCRYPT_SALT_ROUNDS = 12;
 const userRepository = new UserRepository(mock_users);
 
 const signUp = async (req: Request, res: Response) => {
-  const { username, password, name, email, url }: Omit<UserModel, 'id'> = req.body;
+  const { username, password, name, email, url }: Omit<UserInfo, 'id'> = req.body;
 
   const isExistUser = await userRepository.findByUsername(username);
   if (isExistUser) {
@@ -34,7 +34,7 @@ const signUp = async (req: Request, res: Response) => {
 };
 
 const login = async (req: Request, res: Response) => {
-  const { username, password }: Pick<UserModel, 'username' | 'password'> = req.body;
+  const { username, password }: Pick<UserInfo, 'username' | 'password'> = req.body;
 
   const user = await userRepository.findByUsername(username);
   if (!user) {
