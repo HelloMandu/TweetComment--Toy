@@ -5,7 +5,6 @@ import NewTweetForm from './NewTweetForm';
 import TweetCard from './TweetCard';
 import { useAuth } from '../context/AuthContext';
 import { TweetInterface, TweetModel } from '../model';
-import { log } from 'util';
 
 interface TweetsProps {
   tweetService: TweetInterface;
@@ -63,17 +62,17 @@ const Tweets = memo(({ tweetService, username, addable }: TweetsProps) => {
       {/*{error && <Banner text={error} isAlert={true} transient={true} />}*/}
       {tweets.length === 0 && <p className="tweets-empty">No Tweets Yet</p>}
       <ul className="tweets">
-        {tweets.map((tweet) => (
-          <TweetCard
-            key={tweet.id}
-            tweet={tweet}
-            // owner={tweet.user.username === user.user.username}
-            owner={true}
-            onDelete={onDelete}
-            onUpdate={onUpdate}
-            onUsernameClick={onUsernameClick}
-          />
-        ))}
+        {/*{tweets.map((tweet) => (*/}
+        {/*  <TweetCard*/}
+        {/*    key={tweet.id}*/}
+        {/*    tweet={tweet}*/}
+        {/*    // owner={tweet.user.username === user.user.username}*/}
+        {/*    owner={true}*/}
+        {/*    onDelete={onDelete}*/}
+        {/*    onUpdate={onUpdate}*/}
+        {/*    onUsernameClick={onUsernameClick}*/}
+        {/*  />*/}
+        {/*))}*/}
       </ul>
     </>
   );

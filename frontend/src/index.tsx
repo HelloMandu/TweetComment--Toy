@@ -10,13 +10,11 @@ import TweetService from './service/tweet.service';
 import TokenService from './service/token.service';
 import HttpClientService from './service/http.service';
 
-const baseURL = process.env.REACT_APP_BASE_URL;
 const tokenService = new TokenService();
-const httpClient = new HttpClientService(baseURL);
+const httpClient = new HttpClientService(tokenService);
 const authErrorEventBus = new AuthErrorEventBus();
 const authService = new AuthService(httpClient, tokenService);
-const tweetService = new TweetService(httpClient, tokenService);
-
+const tweetService = new TweetService(httpClient);
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

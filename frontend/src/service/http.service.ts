@@ -1,23 +1,27 @@
 import { HttpClientInterface } from '../model';
+import { TokenServiceInterface } from '../model/auth.model';
 
 export default class HttpClientService implements HttpClientInterface {
   private readonly baseUrl: string;
-  private readonly requestInit: RequestInit;
+  private readonly tokenService: TokenServiceInterface;
 
-  constructor(baseUrl?: string, init?: RequestInit) {
-    if (!baseUrl || !process.env.REACT_APP_BASE_URL) {
+  constructor(tokenService: TokenServiceInterface) {
+    const baseUrl = process.env.REACT_APP_BASE_URL;
+    if (!baseUrl) {
       throw new Error('baseUrl is undefined');
     }
     this.baseUrl = baseUrl;
-    this.requestInit = init ?? {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+    this.tokenService = tokenService;
   }
 
   private requestOptions(options?: RequestInit): RequestInit {
-    return { ...options, ...this.requestInit };
+    return {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.tokenService.getToken}`,
+      },
+    };
   }
 
   async fetch(url: string, options?: RequestInit) {
