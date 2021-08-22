@@ -1,8 +1,15 @@
+import { UserModel } from './userInfo';
+
 export type TweetModel = {
   id: string;
   text: string;
   createdAt: Date;
   userId: string;
+};
+
+export type TweetResult = {
+  tweet: TweetModel;
+  user?: UserModel;
 };
 
 export interface TweetRepositoryInterface {

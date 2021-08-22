@@ -1,17 +1,12 @@
 import { mock_tweets } from '../data/mock_tweets';
 import { Request, Response } from 'express';
 import TweetRepository from '../repository/tweet.repository';
-import { TweetModel } from '../model/tweet.model';
+import { TweetModel, TweetResult } from '../model/tweet.model';
 import UserRepository from '../repository/user.repository';
 import { mock_users } from '../data/mock_users';
-import { UserModel } from '../model/userInfo';
 
 const tweetRepository = new TweetRepository(mock_tweets);
 const userRepository = new UserRepository(mock_users);
-
-const isMe = (id: string, userId: string) => {
-  return id === userId;
-};
 
 const getTweets = async (req: Request, res: Response) => {
   const username = req.query.username;
@@ -27,10 +22,10 @@ const getTweets = async (req: Request, res: Response) => {
   const tweets: TweetModel[] = await (user
     ? tweetRepository
         .getTweets()
-        .then((tweets) => tweets.filter((tweet) => isMe(tweet.userId, user.id)))
+        .then((tweets) => tweets.filter((tweet) => tweet.userId === user.id))
     : tweetRepository.getTweets());
 
-  const tweetWithUser: { tweet: TweetModel; user?: UserModel }[] = await Promise.all(
+  const tweetWithUser: TweetResult[] = await Promise.all(
     tweets.map(async (tweet) => {
       const user = await userRepository.findById(tweet.userId);
       if (!user) {
@@ -40,7 +35,7 @@ const getTweets = async (req: Request, res: Response) => {
       return { tweet, user: { name, username, url } };
     })
   );
-  res.status(200).json(tweetWithUser ?? []);
+  res.status(200).json(tweetWithUser);
 };
 
 const getTweetById = async (req: Request, res: Response) => {
@@ -49,7 +44,10 @@ const getTweetById = async (req: Request, res: Response) => {
   if (!tweet) {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });
   }
-  res.status(200).json(tweet);
+
+  const user = await userRepository.findById(tweet.userId);
+
+  res.status(200).json({ tweet, user });
 };
 
 const createTweet = async (req: Request, res: Response) => {
@@ -76,7 +74,8 @@ const createTweet = async (req: Request, res: Response) => {
   };
 
   await tweetRepository.createTweet(newTweet);
-  res.status(201).json(newTweet);
+
+  res.status(201).json({ tweet: newTweet, user });
 };
 
 const updateTweet = async (req: Request, res: Response) => {
@@ -88,11 +87,9 @@ const updateTweet = async (req: Request, res: Response) => {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });
   }
 
-  if (!isMe(id, updated.userId)) {
-    return res.sendStatus(403);
-  }
+  const user = await userRepository.findById(updated.userId);
 
-  res.status(200).json(updated);
+  res.status(200).json({ tweet: updated, user });
 };
 
 const deleteTweet = async (req: Request, res: Response) => {
@@ -101,10 +98,6 @@ const deleteTweet = async (req: Request, res: Response) => {
 
   if (!deleted) {
     return res.status(404).json({ message: `Tweet id(${id}) is not found` });
-  }
-
-  if (!isMe(id, deleted.userId)) {
-    return res.sendStatus(403);
   }
 
   res.status(200).json(deleted);
