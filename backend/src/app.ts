@@ -5,8 +5,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import tweetsRouter from './router/tweet.router';
 import authRouter from './router/auth.router';
-import dotenv from 'dotenv';
-dotenv.config();
+import { config } from './config';
 
 const app = express();
 
@@ -27,6 +26,6 @@ app.use((error, _: Request, res: Response) => {
   res.sendStatus(500);
 });
 
-app.listen(8080, () => {
+app.listen(config.host.port, () => {
   console.log('Start Server');
 });

@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import UserRepository from '../repository/user.repository';
 import { mock_users } from '../data/mock_users';
+import { config } from '../config';
 
-export const JWT_SECRET_KEY = 'TEMP';
 const AUTH_ERROR = { message: 'Authentication Error' };
 const userRepository = new UserRepository(mock_users);
 
@@ -15,7 +15,7 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
 
   const token = authHeader.split(' ')[1];
 
-  jwt.verify(token, JWT_SECRET_KEY, async (err, decoded) => {
+  jwt.verify(token, config.jwt.secretKey, async (err, decoded) => {
     if (err || !decoded) {
       return res.status(401).json(AUTH_ERROR);
     }

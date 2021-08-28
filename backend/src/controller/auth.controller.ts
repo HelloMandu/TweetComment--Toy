@@ -4,10 +4,7 @@ import jwt from 'jsonwebtoken';
 import UserRepository from '../repository/user.repository';
 import { mock_users } from '../data/mock_users';
 import { UserInfo } from '../model/userInfo';
-import { JWT_SECRET_KEY } from '../middleware/auth';
-
-const JWT_EXPIRES_IN_DAY = '1d';
-const BCRYPT_SALT_ROUNDS = 12;
+import { config } from '../config';
 
 const userRepository = new UserRepository(mock_users);
 
@@ -19,7 +16,7 @@ const signUp = async (req: Request, res: Response) => {
     return res.status(409).json({ message: `${username} already exists` });
   }
 
-  const hashed = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+  const hashed = await bcrypt.hash(password, config.bcrypt.saltRounds);
 
   const user = await userRepository.createUser({
     username,
@@ -63,7 +60,7 @@ const me = async (req: Request, res: Response) => {
 };
 
 const createToken = (id: string) => {
-  return jwt.sign({ id }, JWT_SECRET_KEY, { expiresIn: JWT_EXPIRES_IN_DAY });
+  return jwt.sign({ id }, config.jwt.secretKey, { expiresIn: config.jwt.expiresInSec });
 };
 
 export { signUp, login, me };
