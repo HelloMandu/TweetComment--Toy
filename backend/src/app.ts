@@ -5,6 +5,8 @@ import helmet from 'helmet';
 import cors from 'cors';
 import tweetsRouter from './router/tweet.router';
 import authRouter from './router/auth.router';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 
