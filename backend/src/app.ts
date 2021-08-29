@@ -6,6 +6,7 @@ import cors from 'cors';
 import tweetsRouter from './router/tweet.router';
 import authRouter from './router/auth.router';
 import { config } from './config';
+import { Server } from 'socket.io';
 
 const app = express();
 
@@ -26,6 +27,16 @@ app.use((error, _: Request, res: Response) => {
   res.sendStatus(500);
 });
 
-app.listen(config.host.port, () => {
+const server = app.listen(config.host.port, () => {
   console.log('Start Server');
+});
+const socketIO = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
+
+socketIO.on('connection', (socket) => {
+  console.log('Connection Success');
+  socketIO.emit('Topic', 'Hello Client Socket Opened');
 });
