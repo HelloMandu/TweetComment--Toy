@@ -18,4 +18,5 @@ export interface TweetInterface {
   createTweet(text: string, username: string, user: string): Promise<TweetResult>;
   updateTweet(tweetId: number, text: string): Promise<TweetResult>;
   deleteTweet(tweetId: number): Promise<TweetModel>;
+  onSync(event: string, listener: Function): void;
 }

@@ -1,10 +1,13 @@
 import { HttpClientInterface, TweetInterface, TweetModel, TweetResult } from '../model';
+import { SocketClientInterface } from '../connection/socket';
 
 export default class TweetService implements TweetInterface {
-  httpClient: HttpClientInterface;
   tweets: TweetResult[];
 
-  constructor(httpClient: HttpClientInterface) {
+  constructor(
+    private readonly httpClient: HttpClientInterface,
+    private readonly socket: SocketClientInterface
+  ) {
     this.httpClient = httpClient;
     this.tweets = [];
   }
@@ -39,5 +42,9 @@ export default class TweetService implements TweetInterface {
 
   async deleteTweet(tweetId: number) {
     return this.httpClient.delete<TweetModel>(`/tweets/${tweetId}`);
+  }
+
+  onSync(event: string, callback: Function) {
+    this.socket.onSync(event, callback);
   }
 }
