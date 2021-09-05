@@ -10,7 +10,7 @@ export default class SocketClient implements SocketClientInterface {
 
   constructor(baseURL: string, getToken: () => string) {
     this.socketIO = socket(baseURL, {
-      auth: (callback) => callback({ token: getToken }),
+      auth: (callback) => callback({ token: getToken() }),
     });
   }
 

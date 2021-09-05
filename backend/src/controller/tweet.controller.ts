@@ -4,6 +4,7 @@ import TweetRepository from '../repository/tweet.repository';
 import { TweetModel, TweetResult } from '../model/tweet.model';
 import UserRepository from '../repository/user.repository';
 import { mock_users } from '../data/mock_users';
+import Socket from '../connection/socket';
 
 const tweetRepository = new TweetRepository(mock_tweets);
 const userRepository = new UserRepository(mock_users);
@@ -36,6 +37,7 @@ const getTweets = async (req: Request, res: Response) => {
       return { tweet, user: { name, username, url } };
     })
   );
+  Socket.getInstance().io.emit('tweet', 'Tweet Connected');
   res.status(200).json(tweetWithUser);
 };
 

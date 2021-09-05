@@ -25,6 +25,7 @@ const Tweets = memo(({ tweetService, username, addable }: TweetsProps) => {
         setTweets(tweets);
       })
       .catch(onError);
+    tweetService.onSync('tweet', console.log);
   }, [tweetService, username]);
 
   const onCreated = (tweet: TweetResult) => {

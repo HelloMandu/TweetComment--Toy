@@ -17,6 +17,7 @@ class Socket {
 
     this.socketIO.use((socket, next) => {
       const token: string | undefined = socket.handshake.auth.token;
+      console.log(token);
       if (!token) {
         return next(new Error('Authentication Error'));
       }
@@ -33,8 +34,8 @@ class Socket {
     return this.socketIO;
   }
 
-  static getInstance(server: http.Server): Socket {
-    if (!this.instance) {
+  static getInstance(server?: http.Server): Socket {
+    if (!this.instance && server) {
       this.instance = new Socket(server);
     }
     return this.instance;
