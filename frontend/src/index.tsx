@@ -10,6 +10,7 @@ import TweetService from './service/tweet.service';
 import TokenService from './service/token.service';
 import HttpClientService from './service/http.service';
 import SocketClient from './connection/socket';
+import { config } from './config';
 
 const tokenService = new TokenService();
 const httpClient = new HttpClientService(tokenService);
@@ -17,10 +18,7 @@ const authErrorEventBus = new AuthErrorEventBus();
 const authService = new AuthService(httpClient, tokenService);
 const tweetService = new TweetService(
   httpClient,
-  new SocketClient(
-    process.env.REACT_APP_BASE_URL ?? 'http://localhost:8080',
-    () => tokenService.getToken
-  )
+  new SocketClient(config.api.url, () => tokenService.getToken)
 );
 
 ReactDOM.render(
