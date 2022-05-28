@@ -8,8 +8,8 @@ interface TweetCardProps {
   tweet: TweetModel;
   user: UserModel;
   owner: boolean;
-  onUpdate(tweetId: number, text: string): Promise<string | void>;
-  onDelete(tweetId: number): Promise<void>;
+  onUpdate(tweetId: number, text: string): void;
+  onDelete(tweetId: number): void;
   onUsernameClick(username: string): void;
 }
 
