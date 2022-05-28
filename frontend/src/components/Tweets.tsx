@@ -18,21 +18,20 @@ const Tweets = memo(({ tweetService, username, addable }: TweetsProps) => {
   const history = useHistory();
   const { user } = useAuth();
 
-  useEffect(() => {
+
+  const fetchTweets = () =>
     tweetService
       .getTweets(username)
       .then((tweets) => {
         setTweets(tweets);
       })
       .catch(onError);
-    tweetService.onSync('tweet', console.log);
-  }, [tweetService, username]);
 
   const onCreated = (tweet: TweetResult) => {
     setTweets((tweets) => [tweet, ...tweets]);
   };
 
-  const onDelete = (tweetId: number) =>
+  const onDelete = async (tweetId: number) =>
     tweetService
       .deleteTweet(tweetId)
       .then(() => setTweets((tweets) => tweets.filter((tweet) => tweet.tweet.id !== tweetId)))
@@ -56,6 +55,10 @@ const Tweets = memo(({ tweetService, username, addable }: TweetsProps) => {
       setError('');
     }, 3000);
   };
+
+  useEffect(() => {
+    tweetService.onSync('tweet', fetchTweets);
+  }, [tweetService, username]);
 
   return (
     <>

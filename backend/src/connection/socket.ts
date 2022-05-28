@@ -9,15 +9,10 @@ class Socket {
   private readonly socketIO: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>;
 
   private constructor(server: http.Server) {
-    this.socketIO = new Server(server, {
-      cors: {
-        origin: '*',
-      },
-    });
+    this.socketIO = new Server(server, { cors: { origin: '*', }, });
 
     this.socketIO.use((socket, next) => {
       const token: string | undefined = socket.handshake.auth.token;
-      console.log(token);
       if (!token) {
         return next(new Error('Authentication Error'));
       }
